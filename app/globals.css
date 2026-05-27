@@ -1,26 +1,338 @@
+/* Google Fonts — must come before all other rules */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @import "tailwindcss";
 
+/* =============================================
+   STOR TREK — Global Styles
+   "Storage of the Future"
+   ============================================= */
+
+/* ── CSS Variables ── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-purple:     #2D1B3D;
+  --color-orange:     #F59137;
+  --color-yellow:     #FFEF46;
+  --color-cream:      #F8F2E6;
+  --color-pink:       #EB729A;
+  --color-black:      #02050A;
+  --color-purple-light: #3d2654;
+  --color-purple-dark:  #1a0f26;
+
+  --font-heading: 'Orbitron', sans-serif;
+  --font-body:    'Inter', sans-serif;
+
+  --background: var(--color-black);
+  --foreground: var(--color-cream);
 }
 
+/* ── Tailwind v4 theme tokens ── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-stor-purple:       #2D1B3D;
+  --color-stor-orange:       #F59137;
+  --color-stor-yellow:       #FFEF46;
+  --color-stor-cream:        #F8F2E6;
+  --color-stor-pink:         #EB729A;
+  --color-stor-black:        #02050A;
+  --color-stor-purple-light: #3d2654;
+  --color-stor-purple-dark:  #1a0f26;
+
+  --font-heading: 'Orbitron', sans-serif;
+  --font-body:    'Inter', sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── Base Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-black);
+  color: var(--color-cream);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ── Star Field Animation ── */
+.stars-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    #02050A 0%,
+    #0d0820 40%,
+    #1a0f26 70%,
+    #02050A 100%
+  );
+}
+
+.stars-bg::before,
+.stars-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.4); }
+}
+
+@keyframes drift {
+  0%   { transform: translateY(0px) translateX(0px); }
+  33%  { transform: translateY(-8px) translateX(4px); }
+  66%  { transform: translateY(4px) translateX(-6px); }
+  100% { transform: translateY(0px) translateX(0px); }
+}
+
+@keyframes shootingStar {
+  0%   { transform: translateX(-200px) translateY(-200px); opacity: 0; }
+  10%  { opacity: 1; }
+  100% { transform: translateX(100vw) translateY(100vh); opacity: 0; }
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: #ffffff;
+  animation: twinkle var(--duration, 3s) var(--delay, 0s) infinite ease-in-out,
+             drift 8s var(--delay, 0s) infinite ease-in-out;
+}
+
+/* ── Utility Classes ── */
+
+/* Buttons */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2rem;
+  background: var(--color-orange);
+  color: var(--color-black);
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-primary:hover {
+  background: #f9a24f;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(245, 145, 55, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2rem;
+  background: transparent;
+  color: var(--color-cream);
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1.5px solid rgba(248, 242, 230, 0.3);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-orange);
+  color: var(--color-orange);
+  box-shadow: 0 0 16px rgba(245, 145, 55, 0.15);
+}
+
+/* Cards */
+.card {
+  background: rgba(45, 27, 61, 0.5);
+  border: 1px solid rgba(245, 145, 55, 0.15);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  backdrop-filter: blur(12px);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  border-color: rgba(245, 145, 55, 0.35);
+  box-shadow: 0 8px 32px rgba(45, 27, 61, 0.6);
+}
+
+/* Badges */
+.badge-orange {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.65rem;
+  background: rgba(245, 145, 55, 0.15);
+  color: var(--color-orange);
+  border: 1px solid rgba(245, 145, 55, 0.4);
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.badge-yellow {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.65rem;
+  background: rgba(255, 239, 70, 0.12);
+  color: var(--color-yellow);
+  border: 1px solid rgba(255, 239, 70, 0.35);
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.badge-pink {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.65rem;
+  background: rgba(235, 114, 154, 0.12);
+  color: var(--color-pink);
+  border: 1px solid rgba(235, 114, 154, 0.35);
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.badge-green {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.65rem;
+  background: rgba(52, 211, 153, 0.12);
+  color: #34d399;
+  border: 1px solid rgba(52, 211, 153, 0.35);
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Wallet Adapter Overrides */
+.wallet-adapter-button {
+  font-family: var(--font-heading) !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  background: var(--color-orange) !important;
+  color: var(--color-black) !important;
+  border-radius: 0.5rem !important;
+  padding: 0.65rem 1.25rem !important;
+  height: auto !important;
+  transition: all 0.2s ease !important;
+}
+
+.wallet-adapter-button:hover {
+  background: #f9a24f !important;
+  box-shadow: 0 6px 20px rgba(245, 145, 55, 0.35) !important;
+}
+
+.wallet-adapter-modal-wrapper {
+  background: var(--color-purple) !important;
+  border: 1px solid rgba(245, 145, 55, 0.2) !important;
+}
+
+.wallet-adapter-modal-title {
+  font-family: var(--font-heading) !important;
+  color: var(--color-cream) !important;
+}
+
+/* Input / Select base */
+input, select, textarea {
+  font-family: var(--font-body);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-black);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-purple-light);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-orange);
+}
+
+/* Section separators */
+.section-divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(245, 145, 55, 0.3), transparent);
+  margin: 0;
+}
+
+/* Glow effects */
+.glow-orange {
+  box-shadow: 0 0 20px rgba(245, 145, 55, 0.3);
+}
+
+.glow-purple {
+  box-shadow: 0 0 20px rgba(45, 27, 61, 0.8);
+}
+
+/* Text gradient */
+.text-gradient-orange {
+  background: linear-gradient(135deg, var(--color-orange), var(--color-yellow));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-pink {
+  background: linear-gradient(135deg, var(--color-pink), var(--color-orange));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
